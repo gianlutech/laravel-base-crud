@@ -17,8 +17,14 @@
   <li class="list-group-item">{{$comic->series}}</li>
   <li class="list-group-item">{{$comic->sale_date}}</li>
   <li class="list-group-item">{{$comic->type}}</li>
-  <li class="list-group-item">
-      <a href="{{route('comics.show', $comic->id)}}" class="btn btn-primary">SCOPRI DI PIU'!!</a>
+  <li class="list-group-item d-flex">
+      <a href="{{route('comics.show', $comic->id)}}" class="btn btn-primary mx-2">SCOPRI DI PIU'</a>
+      <a href="{{route('comics.edit', $comic->id)}}" class="btn btn-warning mx-2">MODIFICA</a>
+      <form action="{{route('comics.destroy', $comic->id)}}" method="POST">
+        @method('DELETE')
+        @csrf
+        <button type="submit" class="btn btn-danger mx-2">ELIMINA</button>
+      </form>
     </li>
   @empty
   <li class="list-group-item">

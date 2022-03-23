@@ -36,6 +36,14 @@ class ComicController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'title' => 'required|string|min:1',
+            'price' => 'required|numeric|min:0',
+            'series' => 'required|sring|min:3 max:50',
+            'sale_date' => 'required|date',
+            'type' => 'required|string|min:3 max:50',
+        ]);
+
         $data = $request->all();
 
         $comic = new Comic();
@@ -61,34 +69,40 @@ class ComicController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Comic  $comic
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Comic $comic)
     {
-        //
+        return view('comicS.edit', compact('comic'));
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Comic  $comic
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Comic $comic)
     {
-        //
+        $data = $request->all();
+
+        $comic->fill($data);
+        $comic->save();
+
+        return redirect()->route('comics.show', $comic->id); 
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Comic  $comic
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Comic $comic)
     {
-        //
+        $comic->delete();
+        return redirect()->route('comics.index')->with('message', "$comic->title eliminato con successo!");
     }
 }

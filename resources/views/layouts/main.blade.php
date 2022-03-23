@@ -14,6 +14,7 @@
     </header>
     <!-- MAIN -->
     <main class="py-5">
+        @include('alert.alert')
     @yield('content')
     </main>
 </body>
