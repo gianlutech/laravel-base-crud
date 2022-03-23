@@ -20,7 +20,7 @@
   <li class="list-group-item d-flex">
       <a href="{{route('comics.show', $comic->id)}}" class="btn btn-primary mx-2">SCOPRI DI PIU'</a>
       <a href="{{route('comics.edit', $comic->id)}}" class="btn btn-warning mx-2">MODIFICA</a>
-      <form action="{{route('comics.destroy', $comic->id)}}" method="POST">
+      <form action="{{route('comics.destroy', $comic->id)}}" method="POST" class="delete-forms">
         @method('DELETE')
         @csrf
         <button type="submit" class="btn btn-danger mx-2">ELIMINA</button>
@@ -35,3 +35,18 @@
 </div>
 
 @endsection
+
+@section('scripts')
+
+<script>
+const deleteForms = document.querySelectorAll('.delete-forms');
+deleteForms.forEach(form => {
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const accept = confirm('Sei sicuro di volerlo eliminare?');
+    if(accept) e.target.submit();
+  });
+});
+</script>
+
+@endsection  
